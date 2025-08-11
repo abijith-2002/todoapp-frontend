@@ -5,7 +5,7 @@ import Checkbox from "./Checkbox";
 import PlusIcon from "./Plus";
 import XIcon from "./X";
 import CheckIcon from "./Check";
-import { Edit2, Trash2 } from "react-feather";
+import { Edit2 } from "react-feather";
 import "./App.css";
 import "./input.css";
 import "./button.css";

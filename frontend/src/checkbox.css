@@ -16,21 +16,7 @@
   background: #8B5CF6;
   border-color: #8B5CF6;
 }
-.custom-checkbox:checked::after {
-  content: '';
-  display: block;
-  position: absolute;
-  left: 5px;
-  top: 2px;
-  width: 6px;
-  height: 12px;
-  border: solid #fff;
-  border-width: 0 2.5px 2.5px 0;
-  border-radius: 2px;
-  transform: rotate(45deg);
-  opacity: 1;
-  transition: opacity 0.2s, transform 0.2s;
-}
+/* The checkmark is now rendered via React Check.svg, not CSS ::after. Old lines removed for clarity and to avoid double visuals. */
 .custom-checkbox:focus {
   box-shadow: 0 0 0 2px rgba(139,92,246,0.25);
 }

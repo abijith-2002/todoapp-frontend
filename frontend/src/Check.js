@@ -2,14 +2,17 @@ import React from "react";
 
 /**
  * PUBLIC_INTERFACE
- * Pixel-perfect Check icon.
+ * Minimal modern line-style Checkmark icon for tasks and checkboxes.
  *
- * Renders a crisp, centered check mark with proper color and alignment for both checked and completed states.
+ * - Clean, elegant, and visually distinct at any size.
+ * - Adapts to dark/light surfaces.
+ * - Uses the Kavia brand accent for checked/completed states.
  */
 function Check({
   size = 20,
-  stroke = "currentColor", // usually white on checked, or purple/brand color
+  stroke = "currentColor",
   className = "",
+  style = {},
   ...props
 }) {
   return (
@@ -19,20 +22,20 @@ function Check({
       viewBox="0 0 20 20"
       fill="none"
       stroke={stroke}
-      strokeWidth="2.25"
+      strokeWidth="2.2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      aria-hidden="true"
       className={className}
-      {...props}
+      aria-hidden="true"
       style={{
         display: "block",
         verticalAlign: "middle",
-        ...props.style
+        ...style,
       }}
+      {...props}
     >
-      {/* Perfectly aligned check - slight offsets for pixel alignment */}
-      <path d="M5.5 10.5L9 14L15 7" />
+      {/* Sleek, open-angled modern check (pixel-perfect for 20x20) */}
+      <polyline points="5 11 9 15 15 6" />
     </svg>
   );
 }
