@@ -1,0 +1,25 @@
+.custom-input {
+  width: 100%;
+  background-color: #1E1E1E;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #fff;
+  border-radius: 9999px;
+  font-size: 14px;
+  padding: 12px 16px;
+  outline: none;
+  transition: background 0.2s, box-shadow 0.2s, border-color 0.2s;
+  box-sizing: border-box;
+  height: 44px;
+}
+.custom-input:hover {
+  background: #2A2A2A;
+}
+.custom-input:focus {
+  background: #1E1E1E;
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+  border-color: #8B5CF6;
+}
+.custom-input::placeholder {
+  color: rgba(255,255,255,0.4);
+  font-size: 14px;
+}

@@ -1,6 +1,15 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { Edit2, Trash2, Plus } from "react-feather";
+import Input from "./Input";
+import Button from "./Button";
+import Checkbox from "./Checkbox";
+import PlusIcon from "./Plus";
+import XIcon from "./X";
+import CheckIcon from "./Check";
+import { Edit2, Trash2 } from "react-feather";
 import "./App.css";
+import "./input.css";
+import "./button.css";
+import "./checkbox.css";
 
 // Accessible unique ID generator for tasks
 const generateId = (() => {
@@ -121,22 +130,24 @@ function App() {
           <label htmlFor="new-task" className="sr-only">
             Add new task
           </label>
-          <input
+          <Input
             id="new-task"
-            type="text"
             className="task-input"
             placeholder="Add new task"
             value={newTask}
             onChange={(e) => setNewTask(e.target.value)}
             maxLength={80}
+            aria-label="Add new task"
+            autoFocus={false}
           />
-          <button
+          <Button
             type="submit"
             className="btn btn-primary"
             disabled={!newTask.trim()}
           >
+            <PlusIcon size={20} style={{ marginRight: 8, verticalAlign: "middle" }} />
             Add
-          </button>
+          </Button>
         </form>
 
         <nav className="filters">
@@ -195,14 +206,11 @@ function App() {
                   key={task.id}
                   className={`task-item${task.completed ? " completed" : ""}`}
                 >
-                  <input
-                    type="checkbox"
+                  <Checkbox
                     className="task-checkbox"
                     checked={task.completed}
                     onChange={() => handleToggleCompleted(task.id)}
-                    aria-label={`Mark "${task.text}" as ${
-                      task.completed ? "incomplete" : "complete"
-                    }`}
+                    aria-label={`Mark "${task.text}" as ${task.completed ? 'incomplete' : 'complete'}`}
                   />
                   <span className="task-text">{task.text}</span>
                   <div className="task-actions">
@@ -218,7 +226,7 @@ function App() {
                       onClick={() => handleDelete(task.id)}
                       aria-label={`Delete "${task.text}"`}
                     >
-                      <Trash2 size={16} />
+                      <XIcon size={16} />
                     </button>
                   </div>
                 </li>
