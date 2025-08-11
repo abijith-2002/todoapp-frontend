@@ -1,5 +1,7 @@
 .custom-input {
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   background-color: #1E1E1E;
   border: 1px solid rgba(255,255,255,0.1);
   color: #fff;
@@ -10,6 +12,9 @@
   transition: background 0.2s, box-shadow 0.2s, border-color 0.2s;
   box-sizing: border-box;
   height: 44px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .custom-input:hover {
   background: #2A2A2A;

@@ -66,27 +66,36 @@ body {
 
 .App {
   min-height: 100vh;
+  min-width: 100vw;
+  width: 100vw;
+  max-width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
   padding: var(--spacing-5);
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100vw;
-  max-width: 100vw;
-  overflow: unset;
+  justify-content: flex-start;
+  overflow: hidden; /* Contain everything in viewport */
+  position: relative;
 }
 
+/* Prevent scroll/overflow on App; only allow scroll for lists */
 .container {
   width: 100%;
-  max-width: 800px;
+  max-width: 700px;
   margin: 0 auto;
+  box-sizing: border-box;
   padding: var(--spacing-4);
   background: var(--surface-dark);
   border-radius: var(--radius-lg);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  /* Remove overflow, only handle overflow in children like .task-list as needed */
-  overflow: visible;
-  height: fit-content;
+  overflow: hidden;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 
 /* Typography */
@@ -96,6 +105,10 @@ body {
   color: var(--text-primary);
   margin: 0;
   margin-bottom: var(--spacing-1);
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .subtitle {
@@ -104,6 +117,10 @@ body {
   color: var(--text-secondary);
   margin: 0;
   margin-bottom: var(--spacing-5);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* Task Input */
@@ -112,7 +129,10 @@ body {
   gap: var(--spacing-3);
   margin-bottom: var(--spacing-4);
   width: 100%;
+  max-width: 100%;
   padding: 0 var(--spacing-1);
+  box-sizing: border-box;
+  overflow: visible;
 }
 
 .task-input {
@@ -210,11 +230,14 @@ body {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-3);
-  max-height: calc(100vh - 300px);
-  overflow-y: auto; /* only Y scroll if content overflows */
-  overflow-x: hidden; /* prevent horizontal scroll */
+  width: 100%;
+  max-width: 100%;
+  max-height: calc(90vh - 250px);
+  overflow-y: auto;
+  overflow-x: hidden;
   scrollbar-width: thin;
   scrollbar-color: var(--accent-purple) var(--surface-dark);
+  box-sizing: border-box;
 }
 
 .task-list::-webkit-scrollbar {
@@ -241,6 +264,14 @@ body {
   border-radius: var(--radius-xl);
   transition: all 0.2s ease;
   margin: 0 var(--spacing-1);
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  overflow: hidden; /* so children can't escape */
+}
+
+.task-item.editing {
+  overflow: visible;
 }
 
 .task-item:hover {
@@ -250,6 +281,8 @@ body {
 .task-checkbox {
   width: 20px;
   height: 20px;
+  min-width: 20px;
+  min-height: 20px;
   border-radius: var(--radius-full);
   border: 2px solid var(--text-secondary);
   appearance: none;
@@ -283,9 +316,17 @@ body {
 }
 
 .task-text {
-  flex: 1;
+  flex: 1 1 0;
+  min-width: 0;
   font-size: 14px;
   color: var(--text-primary);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: block;
+  word-break: break-all;
+  /* Responsive fallback for multiline, use single line strategy by default */
+  max-width: 100%;
 }
 
 .task-item.completed .task-text {
@@ -296,6 +337,13 @@ body {
 .task-actions {
   display: flex;
   gap: var(--spacing-2);
+  min-width: 0;
+  flex-shrink: 0;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-end;
+  max-width: 100%;
+  overflow: visible;
 }
 
 .btn-icon {
@@ -310,6 +358,11 @@ body {
   align-items: center;
   justify-content: center;
   line-height: 0;
+  min-width: 28px;
+  min-height: 28px;
+  max-width: 36px;
+  max-height: 36px;
+  box-sizing: border-box;
 }
 
 .btn-icon:hover {
@@ -364,21 +417,44 @@ body {
 @media (max-width: 640px) {
   .App {
     padding: var(--spacing-4);
+    min-width: 100vw;
+    max-width: 100vw;
   }
-  
+
   .container {
+    max-width: 100vw;
     padding: var(--spacing-3);
+    min-width: 0;
   }
-  
+
   .title {
     font-size: 20px;
+    max-width: 100%;
   }
-  
+
+  .task-input, .custom-input {
+    font-size: 13px;
+    padding: var(--spacing-2) var(--spacing-3);
+    min-width: 0;
+    max-width: 100%;
+  }
+
   .fab {
     bottom: var(--spacing-4);
     right: var(--spacing-4);
   }
 }
+
+/* Prevent editing task input overflow in edit mode */
+.task-item.editing input[type="text"].task-input,
+.task-item.editing .custom-input {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 
 /* Accessibility */
 .sr-only {
