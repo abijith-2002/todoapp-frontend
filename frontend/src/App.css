@@ -50,9 +50,14 @@ body {
 .App {
   min-height: 100vh;
   padding: var(--spacing-5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
 }
 
 .container {
+  width: 100%;
   max-width: 800px;
   margin: 0 auto;
   padding: var(--spacing-4);
@@ -60,6 +65,8 @@ body {
   border-radius: var(--radius-xl);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  height: fit-content;
 }
 
 /* Typography */
@@ -84,6 +91,8 @@ body {
   display: flex;
   gap: var(--spacing-3);
   margin-bottom: var(--spacing-4);
+  width: 100%;
+  padding: 0 var(--spacing-1);
 }
 
 .task-input {
@@ -92,7 +101,7 @@ body {
   padding: var(--spacing-3) var(--spacing-4);
   background: var(--surface-dark);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   color: var(--text-primary);
   font-size: 14px;
   transition: all 0.2s ease;
@@ -117,11 +126,12 @@ body {
   height: 44px;
   padding: 0 var(--spacing-4);
   border: none;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .btn-primary {
@@ -180,6 +190,24 @@ body {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-3);
+  max-height: calc(100vh - 300px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-purple) var(--surface-dark);
+}
+
+.task-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.task-list::-webkit-scrollbar-track {
+  background: var(--surface-dark);
+  border-radius: var(--radius-full);
+}
+
+.task-list::-webkit-scrollbar-thumb {
+  background-color: var(--accent-purple);
+  border-radius: var(--radius-full);
 }
 
 .task-item {
@@ -189,8 +217,9 @@ body {
   padding: var(--spacing-3) var(--spacing-4);
   background: var(--surface-dark);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   transition: all 0.2s ease;
+  margin: 0 var(--spacing-1);
 }
 
 .task-item:hover {
