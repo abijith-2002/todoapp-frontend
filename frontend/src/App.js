@@ -132,15 +132,24 @@ function App() {
   return (
     <div className="App">
       <header className="App-header" role="banner">
-
-        <h1 tabIndex="-1" className="title" aria-label="Todo App">
-          {isMobile ? "Todo" : "React Todo App"}
-        </h1>
-        <div className="container" style={{ maxWidth: 440, margin: "0 auto" }}>
+        <div style={{ padding: '24px', width: '100%', maxWidth: '800px', margin: '0 auto' }}>
+          <h1 tabIndex="-1" className="title" aria-label="Todo App">
+            Tasks
+          </h1>
+          <p className="subtitle" style={{ color: 'var(--text-secondary)', fontSize: '14px', marginTop: '4px' }}>
+            {tasks.filter(t => t.completed).length} of {tasks.length} Complete
+          </p>
+        </div>
+        <div className="container">
           <form
             onSubmit={handleAddTask}
             aria-label="Add new todo"
-            style={{ display: "flex", marginBottom: 20, gap: 8 }}
+            style={{ 
+              display: "flex", 
+              marginBottom: "var(--spacing-5)",
+              gap: "var(--spacing-3)",
+              width: "100%" 
+            }}
           >
             <label htmlFor="new-todo" className="sr-only">
               New task
