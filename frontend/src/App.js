@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import { Edit2, Trash2, Plus } from "react-feather";
 import "./App.css";
 
 // Accessible unique ID generator for tasks
@@ -210,14 +211,14 @@ function App() {
                       onClick={() => handleEdit(task.id, task.text)}
                       aria-label={`Edit "${task.text}"`}
                     >
-                      ✏️
+                      <Edit2 size={16} />
                     </button>
                     <button
                       className="btn-icon"
                       onClick={() => handleDelete(task.id)}
                       aria-label={`Delete "${task.text}"`}
                     >
-                      🗑️
+                      <Trash2 size={16} />
                     </button>
                   </div>
                 </li>
