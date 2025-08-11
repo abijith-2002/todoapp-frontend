@@ -9,9 +9,7 @@ const generateId = (() => {
 
 // PUBLIC_INTERFACE
 function App() {
-
-
-  // Task state hooks
+  // Task state management
   const [tasks, setTasks] = useState(() => {
     try {
       const tasksJSON = localStorage.getItem("todo-tasks");
@@ -20,55 +18,49 @@ function App() {
       return [];
     }
   });
-  const [filter, setFilter] = useState("all"); // all, active, completed
+  const [filter, setFilter] = useState("all");
   const [newTask, setNewTask] = useState("");
   const [editId, setEditId] = useState(null);
   const [editText, setEditText] = useState("");
   const inputRef = useRef(null);
-  const listRef = useRef(null);
 
-  // Persist to localStorage
+  // Persist tasks to localStorage
   useEffect(() => {
     localStorage.setItem("todo-tasks", JSON.stringify(tasks));
   }, [tasks]);
 
-  // Keyboard focus management for accessibility
+  // Focus management
   useEffect(() => {
-    if (editId && inputRef.current) inputRef.current.focus();
+    if (editId && inputRef.current) {
+      inputRef.current.focus();
+    }
   }, [editId]);
 
-  // Filter helpers
+  // Filter tasks
   const filteredTasks = tasks.filter((task) => {
     if (filter === "all") return true;
     if (filter === "active") return !task.completed;
     return task.completed;
   });
 
-  // Accessible live region for task updates (status messages)
+  // Accessibility announcements
   const [status, setStatus] = useState("");
   const announce = useCallback((msg) => {
     setStatus(msg);
     setTimeout(() => setStatus(""), 1000);
   }, []);
 
-  // CRUD operations
   // PUBLIC_INTERFACE
   function handleAddTask(e) {
     e.preventDefault();
     const text = newTask.trim();
     if (!text) return;
     setTasks((prev) => [
-      ...prev,
       { id: generateId(), text, completed: false },
+      ...prev,
     ]);
     setNewTask("");
-    announce("Task added.");
-  }
-
-  // PUBLIC_INTERFACE
-  function handleDelete(id) {
-    setTasks((prev) => prev.filter((task) => task.id !== id));
-    announce("Task deleted.");
+    announce("Task added");
   }
 
   // PUBLIC_INTERFACE
@@ -78,11 +70,17 @@ function App() {
         task.id === id ? { ...task, completed: !task.completed } : task
       )
     );
-    announce("Task status changed.");
+    announce("Task status updated");
   }
 
   // PUBLIC_INTERFACE
-  function startEdit(id, text) {
+  function handleDelete(id) {
+    setTasks((prev) => prev.filter((task) => task.id !== id));
+    announce("Task deleted");
+  }
+
+  // PUBLIC_INTERFACE
+  function handleEdit(id, text) {
     setEditId(id);
     setEditText(text);
   }
@@ -90,282 +88,167 @@ function App() {
   // PUBLIC_INTERFACE
   function handleEditSave(e) {
     e.preventDefault();
+    const text = editText.trim();
+    if (!text) return;
     setTasks((prev) =>
       prev.map((task) =>
-        task.id === editId ? { ...task, text: editText.trim() } : task
+        task.id === editId ? { ...task, text } : task
       )
     );
     setEditId(null);
     setEditText("");
-    announce("Task updated.");
+    announce("Task updated");
   }
 
   // PUBLIC_INTERFACE
-  function clearCompleted() {
+  function handleClearCompleted() {
     setTasks((prev) => prev.filter((task) => !task.completed));
-    announce("Completed tasks cleared.");
+    announce("Completed tasks cleared");
   }
-
-  // Accessibility: Keyboard navigation handlers
-  const handleKeyDownItem = (e, idx) => {
-    if (!listRef.current) return;
-    if (e.key === "ArrowUp" && idx > 0) {
-      listRef.current
-        .querySelectorAll('li[tabindex="0"]')
-        [idx - 1].focus();
-      e.preventDefault();
-    }
-    if (
-      (e.key === "ArrowDown" || e.key === "Tab") &&
-      idx < filteredTasks.length - 1
-    ) {
-      listRef.current
-        .querySelectorAll('li[tabindex="0"]')
-        [idx + 1].focus();
-      e.preventDefault();
-    }
-  };
-
-  // Responsive headline size
-  const isMobile = window.innerWidth < 640;
 
   return (
     <div className="App">
-      <header className="App-header" role="banner">
-        <div style={{ padding: '24px', width: '100%', maxWidth: '800px', margin: '0 auto' }}>
-          <h1 tabIndex="-1" className="title" aria-label="Todo App">
-            Tasks
-          </h1>
-          <p className="subtitle" style={{ color: 'var(--text-secondary)', fontSize: '14px', marginTop: '4px' }}>
-            {tasks.filter(t => t.completed).length} of {tasks.length} Complete
+      <div className="container">
+        <header>
+          <h1 className="title">Tasks</h1>
+          <p className="subtitle">
+            {tasks.filter((t) => t.completed).length} of {tasks.length} Complete
           </p>
-        </div>
-        <div className="container">
-          <form
-            onSubmit={handleAddTask}
-            aria-label="Add new todo"
-            style={{ 
-              display: "flex", 
-              marginBottom: "var(--spacing-5)",
-              gap: "var(--spacing-3)",
-              width: "100%" 
-            }}
+        </header>
+
+        <form onSubmit={handleAddTask} className="task-input-container">
+          <label htmlFor="new-task" className="sr-only">
+            Add new task
+          </label>
+          <input
+            id="new-task"
+            type="text"
+            className="task-input"
+            placeholder="Add new task"
+            value={newTask}
+            onChange={(e) => setNewTask(e.target.value)}
+            maxLength={80}
+          />
+          <button
+            type="submit"
+            className="btn btn-primary"
+            disabled={!newTask.trim()}
           >
-            <label htmlFor="new-todo" className="sr-only">
-              New task
-            </label>
-            <input
-              id="new-todo"
-              autoComplete="off"
-              ref={inputRef}
-              type="text"
-              className="todo-input"
-              value={newTask}
-              onChange={(e) => setNewTask(e.target.value)}
-              placeholder="What needs to be done?"
-              aria-label="Add a new todo"
-              maxLength={80}
-              required
-              onKeyDown={(e) => {
-                if (e.key === "Escape") setNewTask("");
-              }}
-            />
-            <button
-              type="submit"
-              className="btn btn-primary"
-              aria-label="Add task"
-              disabled={!newTask.trim()}
-            >
-              Add
-            </button>
-          </form>
-          <nav
-            aria-label="Todo filters"
-            style={{
-              display: "flex",
-              gap: 12,
-              justifyContent: "center",
-              margin: "0 0 14px",
-            }}
+            Add
+          </button>
+        </form>
+
+        <nav className="filters">
+          <button
+            className={`btn-filter${filter === "all" ? " active" : ""}`}
+            onClick={() => setFilter("all")}
           >
-            <button
-              className={`btn-filter${filter === "all" ? " active" : ""}`}
-              onClick={() => setFilter("all")}
-              aria-pressed={filter === "all"}
-            >
-              All
-            </button>
-            <button
-              className={`btn-filter${filter === "active" ? " active" : ""}`}
-              onClick={() => setFilter("active")}
-              aria-pressed={filter === "active"}
-            >
-              Active
-            </button>
-            <button
-              className={`btn-filter${filter === "completed" ? " active" : ""}`}
-              onClick={() => setFilter("completed")}
-              aria-pressed={filter === "completed"}
-            >
-              Completed
-            </button>
-          </nav>
-          <ul
-            ref={listRef}
-            className="todo-list"
-            style={{
-              listStyle: "none",
-              padding: 0,
-              margin: 0,
-              minHeight: 90,
-            }}
-            aria-live="polite"
+            All
+          </button>
+          <button
+            className={`btn-filter${filter === "active" ? " active" : ""}`}
+            onClick={() => setFilter("active")}
           >
-            {filteredTasks.length === 0 && (
-              <li className="todo-empty" tabIndex="-1">
-                <span>
-                  {tasks.length === 0
-                    ? "No todos yet! Add your first one."
-                    : "No todos matching the selected filter."}
-                </span>
-              </li>
-            )}
-            {filteredTasks.map((task, idx) =>
+            Active
+          </button>
+          <button
+            className={`btn-filter${filter === "completed" ? " active" : ""}`}
+            onClick={() => setFilter("completed")}
+          >
+            Completed
+          </button>
+        </nav>
+
+        <ul className="task-list">
+          {filteredTasks.length === 0 ? (
+            <li className="empty-state">
+              {tasks.length === 0
+                ? "No tasks yet. Add your first task!"
+                : "No tasks match the current filter."}
+            </li>
+          ) : (
+            filteredTasks.map((task) =>
               editId === task.id ? (
-                <li key={task.id} className="todo-item editing" tabIndex="0">
-                  <form
-                    onSubmit={handleEditSave}
-                    style={{ display: "flex", gap: 8 }}
-                    aria-label="Edit todo"
-                  >
-                    <label htmlFor={`edit-todo-${task.id}`} className="sr-only">
-                      Edit task
-                    </label>
+                <li key={task.id} className="task-item editing">
+                  <form onSubmit={handleEditSave} style={{ display: "flex", gap: 8, width: "100%" }}>
                     <input
-                      id={`edit-todo-${task.id}`}
-                      ref={inputRef}
                       type="text"
-                      className="todo-input"
+                      className="task-input"
                       value={editText}
                       onChange={(e) => setEditText(e.target.value)}
-                      maxLength={80}
-                      required
-                      aria-label="Edit todo"
                       onKeyDown={(e) => {
                         if (e.key === "Escape") {
                           setEditId(null);
                           setEditText("");
                         }
                       }}
+                      maxLength={80}
                     />
-                    <button
-                      className="btn-small btn-primary"
-                      type="submit"
-                      aria-label="Save edit"
-                    >
+                    <button type="submit" className="btn btn-primary">
                       Save
-                    </button>
-                    <button
-                      className="btn-small btn-secondary"
-                      type="button"
-                      onClick={() => {
-                        setEditId(null);
-                        setEditText("");
-                      }}
-                      aria-label="Cancel edit"
-                    >
-                      Cancel
                     </button>
                   </form>
                 </li>
               ) : (
                 <li
-                  id={task.id}
-                  role="listitem"
                   key={task.id}
-                  className={
-                    "todo-item" +
-                    (task.completed ? " completed" : "") +
-                    (editId === task.id ? " editing" : "")
-                  }
-                  tabIndex="0"
-                  aria-checked={task.completed}
-                  aria-label={task.text}
-                  onKeyDown={(e) => handleKeyDownItem(e, idx)}
+                  className={`task-item${task.completed ? " completed" : ""}`}
                 >
                   <input
                     type="checkbox"
+                    className="task-checkbox"
                     checked={task.completed}
                     onChange={() => handleToggleCompleted(task.id)}
-                    tabIndex={-1}
-                    aria-label="Mark as completed"
-                    className="todo-checkbox"
+                    aria-label={`Mark "${task.text}" as ${
+                      task.completed ? "incomplete" : "complete"
+                    }`}
                   />
-                  <span
-                    className="todo-text"
-                    style={{
-                      textDecoration: task.completed ? "line-through" : "",
-                    }}
-                  >
-                    {task.text}
-                  </span>
-                  <span className="todo-actions">
+                  <span className="task-text">{task.text}</span>
+                  <div className="task-actions">
                     <button
                       className="btn-icon"
-                      aria-label="Edit todo"
-                      onClick={() => startEdit(task.id, task.text)}
+                      onClick={() => handleEdit(task.id, task.text)}
+                      aria-label={`Edit "${task.text}"`}
                     >
                       ✏️
                     </button>
                     <button
                       className="btn-icon"
-                      aria-label="Delete todo"
                       onClick={() => handleDelete(task.id)}
+                      aria-label={`Delete "${task.text}"`}
                     >
                       🗑️
                     </button>
-                  </span>
+                  </div>
                 </li>
               )
-            )}
-          </ul>
-          <footer
-            className="todo-footer"
-            style={{
-              marginTop: 20,
-              display: "flex",
-              flexWrap: "wrap",
-              justifyContent: "space-between",
-              alignItems: "center",
-              gap: 10,
-              color: "var(--text-primary)",
-              fontSize: 14,
-            }}
-          >
-            <span>
-              {tasks.filter((t) => !t.completed).length} item
-              {tasks.filter((t) => !t.completed).length !== 1 && "s"} left
+            )
+          )}
+        </ul>
+
+        {tasks.length > 0 && (
+          <footer style={{ marginTop: "var(--spacing-5)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <span style={{ color: "var(--text-secondary)", fontSize: "14px" }}>
+              {tasks.filter((t) => !t.completed).length} remaining
             </span>
             <button
-              onClick={clearCompleted}
-              className="btn-footer"
-              disabled={tasks.every((t) => !t.completed)}
-              aria-label="Clear completed tasks"
+              className="btn btn-primary"
+              onClick={handleClearCompleted}
+              disabled={!tasks.some((t) => t.completed)}
             >
-              Clear Completed
+              Clear completed
             </button>
           </footer>
-        </div>
-        <div
-          role="status"
-          aria-live="polite"
-          aria-atomic="true"
-          className="sr-only"
-          style={{ position: "absolute", left: "-10000px", top: "auto" }}
-        >
-          {status}
-        </div>
-      </header>
+        )}
+      </div>
+
+      <div
+        role="status"
+        aria-live="polite"
+        className="sr-only"
+      >
+        {status}
+      </div>
     </div>
   );
 }
