@@ -1,12 +1,19 @@
 /* CSS Variables for Theme Management */
 :root {
-  /* Light theme colors */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8f9fa;
-  --text-primary: #282c34;
-  --text-secondary: #61dafb;
-  --border-color: #e9ecef;
-  --button-bg: #007bff;
+  /* New color palette */
+  --russian-violet: #23022e;
+  --yinmn-blue: #26547c;
+  --cambridge-blue: #94c9a9;
+  --rosy-brown: #bd9391;
+  --thistle: #ddc3d0;
+
+  /* Theme color mappings */
+  --bg-primary: var(--thistle);
+  --bg-secondary: #ffffff;
+  --text-primary: var(--russian-violet);
+  --text-secondary: var(--yinmn-blue);
+  --border-color: var(--rosy-brown);
+  --button-bg: var(--yinmn-blue);
   --button-text: #ffffff;
 }
 
@@ -37,7 +44,8 @@
   background: var(--bg-secondary);
   border-radius: 18px;
   padding: 26px 20px 22px 20px;
-  box-shadow: 0 4px 18px 0 rgba(30,32,42,.06), 0 1.5px 3px rgba(30,32,42,.06);
+  box-shadow: 0 4px 18px 0 rgba(35, 2, 46, 0.1), 0 1.5px 3px rgba(35, 2, 46, 0.1);
+  border: 1px solid var(--border-color);
 }
 
 @media (max-width: 600px) {
@@ -80,7 +88,9 @@
   color: var(--text-secondary);
 }
 .btn-filter:hover {
-  color: var(--button-bg);
+  color: var(--cambridge-blue);
+  background: var(--russian-violet);
+  border-radius: 4px;
 }
 .todo-input {
   flex: 1;
@@ -114,6 +124,14 @@
 .btn-footer {
   background: var(--button-bg);
   color: var(--button-text);
+  border: 1px solid var(--yinmn-blue);
+}
+
+.btn-primary:hover,
+.btn-footer:hover {
+  background: var(--cambridge-blue);
+  color: var(--russian-violet);
+  border-color: var(--cambridge-blue);
 }
 .btn-primary:disabled {
   opacity: 0.6;
@@ -164,13 +182,14 @@
 .todo-item {
   display: flex;
   align-items: center;
-  background: var(--bg-primary);
+  background: var(--bg-secondary);
   border-radius: 8px;
   margin-bottom: 13px;
   padding: 10px 13px;
-  box-shadow: 0 1.5px 5px rgba(60,60,80,0.06);
+  box-shadow: 0 1.5px 5px rgba(35, 2, 46, 0.1);
   transition: box-shadow 0.13s, background 0.17s;
   outline: none;
+  border: 1px solid var(--border-color);
 }
 
 .todo-item:focus-visible {
