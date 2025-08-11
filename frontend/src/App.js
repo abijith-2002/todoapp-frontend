@@ -9,18 +9,7 @@ const generateId = (() => {
 
 // PUBLIC_INTERFACE
 function App() {
-  // Theming (existing)
-  const [theme, setTheme] = useState(() =>
-    window.matchMedia &&
-    window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light"
-  );
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-  }, [theme]);
-  const toggleTheme = () =>
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+
 
   // Task state hooks
   const [tasks, setTasks] = useState(() => {
@@ -143,13 +132,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header" role="banner">
-        <button
-          className="theme-toggle"
-          onClick={toggleTheme}
-          aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
-        >
-          {theme === "light" ? "🌙 Dark" : "☀️ Light"}
-        </button>
+
         <h1 tabIndex="-1" className="title" aria-label="Todo App">
           {isMobile ? "Todo" : "React Todo App"}
         </h1>
