@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import '@fontsource/inter';
+// Inter font is loaded via <link> in public/index.html for Google Fonts
 import './index.css';
 import App from './App';
 
