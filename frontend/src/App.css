@@ -37,6 +37,19 @@
   --radius-full: 9999px;
 }
 
+/* Hide scrollbars globally for all elements, including body and .App */
+/* Hide for Webkit */
+::-webkit-scrollbar {
+  display: none !important; /* Chrome, Safari, Opera */
+  width: 0 !important;
+  height: 0 !important;
+}
+/* Hide for Firefox */
+* {
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE & Edge */
+}
+/* Ensure body always hides scrollbars but content is interactable */
 body {
   margin: 0;
   font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -46,7 +59,9 @@ body {
   color: var(--text-primary);
   letter-spacing: -0.01em;
   min-height: 100vh;
-  overflow: unset;
+  overflow: auto !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }
 
 .App {
