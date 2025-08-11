@@ -30,10 +30,10 @@
   --spacing-6: 32px;
 
   /* Border Radius */
-  --radius-sm: 4px;
-  --radius-md: 6px;
-  --radius-lg: 8px;
-  --radius-xl: 12px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
   --radius-full: 9999px;
 }
 
@@ -62,7 +62,7 @@ body {
   margin: 0 auto;
   padding: var(--spacing-4);
   background: var(--surface-dark);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-lg);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.1);
   overflow: hidden;
@@ -101,7 +101,7 @@ body {
   padding: var(--spacing-3) var(--spacing-4);
   background: var(--surface-dark);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-full);
   color: var(--text-primary);
   font-size: 14px;
   transition: all 0.2s ease;
