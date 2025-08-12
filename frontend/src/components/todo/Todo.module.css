@@ -1,0 +1,241 @@
+.screen {
+  min-height: 100vh;
+  background: var(--bg-screen);
+  color: var(--text-on-dark);
+  font-family: var(--font-family-inter);
+}
+
+/* Header area (style_1 approximation) */
+.header {
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-subtle);
+  min-height: var(--space-197);
+  display: flex;
+  align-items: center;
+}
+
+.headerContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-8);
+}
+
+.titleTasks {
+  font-size: var(--typo-4-size);
+  line-height: var(--typo-4-line-height);
+  font-weight: var(--typo-4-weight);
+  color: var(--typo-4-color);
+  margin: 0;
+}
+
+.subtitleProgress {
+  font-size: var(--typo-5-size);
+  line-height: var(--typo-5-line-height);
+  font-weight: var(--typo-5-weight);
+  color: var(--typo-5-color);
+  margin: 0;
+  opacity: 0.95;
+}
+
+/* Main area */
+.main {
+  padding-top: var(--space-32);
+  padding-bottom: var(--space-64);
+}
+
+.taskList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-24);
+  margin: 0;
+  padding: 0;
+}
+
+/* Task card (style_3) */
+.taskItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--space-195);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-50);
+  padding: 0 var(--space-32);
+}
+
+/* Left-side container */
+.taskLeft {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-24);
+  flex: 1;
+  min-width: 0;
+}
+
+/* Circular check control (Ellipse 45x45) */
+.taskCheck {
+  width: var(--space-45);
+  height: var(--space-45);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 var(--space-45);
+  position: relative;
+  outline: none;
+  border: 4px solid var(--accent); /* unchecked state (style_4) */
+  background: transparent;
+}
+
+/* Checked modifier (style_6), with vector check (style_7) */
+.isChecked {
+  background: var(--accent);
+  border: 0;
+}
+.isChecked::after {
+  content: "";
+  width: 12px;
+  height: 20px;
+  border-right: 3px solid var(--ink);
+  border-bottom: 3px solid var(--ink);
+  transform: rotate(45deg);
+  margin-top: -2px;
+}
+
+/* Task text (typo_6) */
+.taskText {
+  font-size: var(--typo-6-size);
+  line-height: var(--typo-6-line-height);
+  font-weight: var(--typo-6-weight);
+  color: var(--typo-6-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Right-side placeholder action icon (25x25, style_5) */
+.taskAction {
+  width: var(--space-25);
+  height: var(--space-25);
+  border-radius: var(--radius-5);
+  background: var(--color-696969);
+  flex: 0 0 var(--space-25);
+}
+
+/* Floating Add Button (style_8 + style_9 icon) */
+.fabAdd {
+  width: var(--space-150);
+  height: var(--space-150);
+  border-radius: var(--radius-75);
+  background: var(--accent);
+  color: var(--ink);
+  position: fixed;
+  right: var(--space-64);
+  bottom: var(--space-64);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+  transition: transform 0.12s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  border: none;
+}
+
+.fabAdd:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.fabAdd:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  opacity: 0.95;
+}
+
+.iconPlus {
+  display: inline-block;
+  width: var(--space-38);
+  height: var(--space-38);
+  position: relative;
+}
+.iconPlus::before,
+.iconPlus::after {
+  content: "";
+  position: absolute;
+  background: currentColor;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.iconPlus::before {
+  width: 6px;
+  height: 100%;
+  border-radius: 3px;
+}
+.iconPlus::after {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1280px) {
+  .taskItem {
+    min-height: 150px;
+    border-radius: var(--radius-20);
+  }
+  .taskText {
+    font-size: 28px;
+    line-height: 34px;
+  }
+  .fabAdd {
+    width: 96px;
+    height: 96px;
+    border-radius: 48px;
+  }
+  .iconPlus {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+@media (max-width: 720px) {
+  .header {
+    min-height: auto;
+    padding: var(--space-24) 0;
+  }
+  .titleTasks {
+    font-size: 40px;
+    line-height: 48px;
+  }
+  .subtitleProgress {
+    font-size: 16px;
+    line-height: 20px;
+    opacity: 0.85;
+  }
+  .taskItem {
+    min-height: 120px;
+    padding: 0 var(--space-24);
+  }
+  .taskCheck {
+    width: 36px;
+    height: 36px;
+    flex-basis: 36px;
+  }
+  .taskText {
+    font-size: 22px;
+    line-height: 28px;
+  }
+  .fabAdd {
+    right: var(--space-32);
+    bottom: var(--space-32);
+    width: 76px;
+    height: 76px;
+    border-radius: 38px;
+  }
+  .iconPlus {
+    width: 22px;
+    height: 22px;
+  }
+}

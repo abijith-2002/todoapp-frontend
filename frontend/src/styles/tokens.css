@@ -1,0 +1,162 @@
+:root {
+  /* Color tokens from design system */
+  --color-0f0f0f: #0f0f0f;
+  --color-1a1a1a: #1a1a1a;
+  --color-2a2a2a: #2a2a2a;
+  --color-ffffff: #ffffff;
+  --color-bb86fc: #bb86fc;
+  --color-696969: #696969;
+  --color-000000: #000000;
+  --color-0d0714: #0d0714;
+  --color-1d1825: #1d1825;
+  --color-15101c: #15101c;
+  --color-9e78cf: #9e78cf;
+  --color-78cfb0: #78cfb0;
+  --color-777777: #777777;
+  --color-3e1671: #3e1671;
+
+  /* Typography tokens (Inter) from design system */
+  --font-family-inter: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  /* typo_4 - Header Title */
+  --typo-4-size: 64px;
+  --typo-4-weight: 400;
+  --typo-4-line-height: 77.454544px;
+  --typo-4-color: var(--color-ffffff);
+  /* typo_5 - Header Subtitle */
+  --typo-5-size: 20px;
+  --typo-5-weight: 400;
+  --typo-5-line-height: 24.204544px;
+  --typo-5-color: var(--color-ffffff);
+  /* typo_6 - Task Title */
+  --typo-6-size: 36px;
+  --typo-6-weight: 700;
+  --typo-6-line-height: 43.56818px;
+  --typo-6-color: var(--color-ffffff);
+
+  /* Spacing tokens from design system (rounded to 4 decimals, names sanitized) */
+  --space-8: 8px;
+  --space-11: 11px;
+  --space-12_3759: 12.3759px;
+  --space-13: 13px;
+  --space-16_5: 16.5px;
+  --space-17_1883: 17.1883px;
+  --space-17_875: 17.875px;
+  --space-19: 19px;
+  --space-22: 22px;
+  --space-24: 24px;
+  --space-25: 25px;
+  --space-26: 26px;
+  --space-30: 30px;
+  --space-31: 31px;
+  --space-32: 32px;
+  --space-38: 38px;
+  --space-40: 40px;
+  --space-44: 44px;
+  --space-45: 45px;
+  --space-64: 64px;
+  --space-68: 68px;
+  --space-75: 75px;
+  --space-77: 77px;
+  --space-94: 94px;
+  --space-101: 101px;
+  --space-110: 110px;
+  --space-114: 114px;
+  --space-117: 117px;
+  --space-150: 150px;
+  --space-159: 159px;
+  --space-167: 167px;
+  --space-175: 175px;
+  --space-189: 189px;
+  --space-195: 195px;
+  --space-197: 197px;
+  --space-221: 221px;
+  --space-261: 261px;
+  --space-381: 381px;
+  --space-384: 384px;
+  --space-390_9049: 390.9049px;
+  --space-432: 432px;
+  --space-583: 583px;
+  --space-758: 758px;
+  --space-1024: 1024px;
+  --space-1080: 1080px;
+  --space-1160: 1160px;
+  --space-1440: 1440px;
+  --space-1920: 1920px;
+
+  /* Border radius tokens */
+  --radius-5: 5px;
+  --radius-10: 10px;
+  --radius-20: 20px;
+  --radius-50: 50px;
+  --radius-75: 75px;
+
+  /* Aliases for this design */
+  --bg-screen: var(--color-0f0f0f);
+  --bg-surface: var(--color-1a1a1a);
+  --border-subtle: var(--color-2a2a2a);
+  --text-on-dark: var(--color-ffffff);
+  --accent: var(--color-bb86fc);
+  --icon-muted: var(--color-696969);
+  --ink: var(--color-000000);
+}
+
+/* Base reset and layout */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: var(--bg-screen);
+  color: var(--text-on-dark);
+  font-family: var(--font-family-inter);
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+/* Generic container aligned with card width from design */
+.container-xl {
+  width: 100%;
+  max-width: calc(var(--space-1160) + 2 * var(--space-24));
+  padding-left: var(--space-24);
+  padding-right: var(--space-24);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Accessibility helper */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  border: 0 !important;
+}
