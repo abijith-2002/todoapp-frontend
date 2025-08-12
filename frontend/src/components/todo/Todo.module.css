@@ -3,6 +3,30 @@
   background: var(--bg-screen);
   color: var(--text-on-dark);
   font-family: var(--font-family-inter);
+
+  /* Scoped scaling for the Todo screen to reduce the "zoomed-in" effect.
+     We keep the original tokens intact globally and override only within this screen. */
+  --ui-scale: 0.85;
+
+  /* Typography overrides (scaled versions of original tokens) */
+  --typo-4-size: calc(64px * var(--ui-scale));         /* Header Title */
+  --typo-4-line-height: calc(77.454544px * var(--ui-scale));
+  --typo-5-size: calc(20px * var(--ui-scale));         /* Header Subtitle */
+  --typo-5-line-height: calc(24.204544px * var(--ui-scale));
+  --typo-6-size: calc(36px * var(--ui-scale));         /* Task Title */
+  --typo-6-line-height: calc(43.56818px * var(--ui-scale));
+
+  /* Component sizing overrides for key elements on this screen */
+  --space-197: calc(197px * var(--ui-scale));          /* Header height */
+  --space-195: calc(195px * var(--ui-scale));          /* Task card min-height */
+  --space-150: calc(150px * var(--ui-scale));          /* FAB size */
+  --space-45: calc(45px * var(--ui-scale));            /* Circular check size */
+  --space-38: calc(38px * var(--ui-scale));            /* FAB icon size */
+  --space-25: calc(25px * var(--ui-scale));            /* Right-side icon size */
+  --space-64: calc(64px * var(--ui-scale));            /* FAB offset */
+
+  /* Slightly widen content container for a more natural desktop feel */
+  --space-1160: 1240px;
 }
 
 /* Header area (style_1 approximation) */
